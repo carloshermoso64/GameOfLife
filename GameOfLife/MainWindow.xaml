@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:GameOfLife"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="-412,-187,-440,-257.5" RenderTransformOrigin="0.553,0.5">
+        <Grid HorizontalAlignment="Left" Height="100" Margin="598,276,0,0" VerticalAlignment="Top" Width="100"/>
+        <Grid x:Name="Grid" HorizontalAlignment="Left" Height="276" Margin="880,276,0,0" VerticalAlignment="Top" Width="274" Grid.Row="10" Grid.Column="10" Grid.RowSpan="10" RenderTransformOrigin="0.459,0.484"/>
+
     </Grid>
 </Window>
+
