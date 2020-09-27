@@ -1775,6 +1775,8 @@
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="10" Height="10" Margin="400,410,0,0"/>
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="10" Height="10" Margin="410,410,0,0"/>
         </Grid>
+        <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="461,176,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="461,221,0,0" VerticalAlignment="Top" Width="76"/>
 
     </Grid>
 </Window>
