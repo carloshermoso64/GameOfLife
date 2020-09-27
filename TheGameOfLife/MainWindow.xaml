@@ -1777,6 +1777,9 @@
         </Grid>
         <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="461,176,0,0" VerticalAlignment="Top" Width="76"/>
         <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="461,221,0,0" VerticalAlignment="Top" Width="76"/>
+        <ComboBox HorizontalAlignment="Left" Margin="615,100,0,0" VerticalAlignment="Top" Width="120" IsEditable="False">
+            <ComboBoxItem IsSelected="True">Individual</ComboBoxItem>
+        </ComboBox>
 
     </Grid>
 </Window>
