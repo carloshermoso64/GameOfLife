@@ -1780,6 +1780,7 @@
         <ComboBox HorizontalAlignment="Left" Margin="615,100,0,0" VerticalAlignment="Top" Width="120" IsEditable="False">
             <ComboBoxItem IsSelected="True">Individual</ComboBoxItem>
         </ComboBox>
+        <Label Name="lblTime" HorizontalAlignment="Left" Margin="655,176,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
