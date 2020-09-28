@@ -28,6 +28,7 @@ namespace TheGameOfLife
         {
             InitializeComponent();
             DispatcherTimer timer = new DispatcherTimer();
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => GridSetup()));
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
@@ -48,8 +49,7 @@ namespace TheGameOfLife
             foreach (Button cell in FindVisualChildren<Button>(this).Where(b => String.IsNullOrEmpty(b.Name)))
             {
                 cell.Name = string.Format("Cell_{0}_{1}", r, c);
-                cell.Click += Node_Click;
-                cell.MouseEnter += Node_Hover;
+                cell.Click += Cell_Click;
                 Map.Add(new Cell(cell)
                 {
                     Name = cell.Name,
@@ -63,6 +63,23 @@ namespace TheGameOfLife
                 }
             }
         }
+
+
+        private void Cell_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            Cell cell = Cell.Grid.Single(c => c.Name == button.Name);
+            if (!cell.alive)
+            {
+                cell.TurnOn();
+            }
+            else
+            {
+                cell.TurnOff();
+            }
+        }
+
+
 
         //Helper function to find components
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject

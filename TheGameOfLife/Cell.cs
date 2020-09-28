@@ -11,10 +11,12 @@ namespace TheGameOfLife
     class Cell
     {
         public static List<Cell> Grid = new List<Cell>();  
-        public bool state { get; set; }
+        public bool alive { get; set; }
         public int coorX { get; set; }
         public int coorY { get; set; }
         public Button cellButton { get; set; }
+        public string Name { get; set; }
+
         public enum CellAction
         {
             Die,
@@ -35,14 +37,14 @@ namespace TheGameOfLife
         public void TurnOn()
         {
             cellButton.Background = Brushes.White;
-            state = true;
+            alive = true;
 
         }
 
         public void TurnOff()
         {
             cellButton.Background = Brushes.Black;
-            state = false;
+            alive = false;
         }
 
 
