@@ -20,7 +20,6 @@ namespace TheGameOfLife
         public enum CellAction
         {
             Die,
-            Revive,
             Live,
         }
 
@@ -47,6 +46,39 @@ namespace TheGameOfLife
             alive = false;
         }
 
+        public void NextAction(CellAction action)
+        {
+            nextAction = action;
+        }
+
+        public int CountNeighbours()
+        {
+            int count = 2;
+            return count;
+        }
+
+        public void step()
+        {
+            int number_of_neighbours = CountNeighbours();
+            if (alive)
+            {
+                if (number_of_neighbours == 2 || number_of_neighbours == 3)
+                {
+                    NextAction(CellAction.Live);
+                }
+                else
+                {
+                    NextAction(CellAction.Die);
+                }
+            }
+            else
+            {
+                if (number_of_neighbours == 3)
+                {
+                    NextAction(CellAction.Live);
+                }
+            }
+        }
 
     }
 }
