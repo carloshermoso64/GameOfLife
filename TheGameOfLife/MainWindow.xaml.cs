@@ -27,9 +27,6 @@ namespace TheGameOfLife
         public MainWindow()
         {
             InitializeComponent();
-
-            panelGame.Rows = 8;
-            panelGame.Columns = 8;
             
 
 
@@ -108,6 +105,35 @@ namespace TheGameOfLife
                     }
                 }
             }
+        }
+
+        private void startButton_Click(object sender, RoutedEventArgs e)
+        {
+            int columns = 60;
+            int rows = 60;
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Width = panelGame.ActualWidth / columns -1.0;
+                    r.Height = panelGame.ActualHeight / rows -1.0;
+                    r.Fill = Brushes.Black;
+                    panelGame.Children.Add(r);
+                    Canvas.SetLeft(r, j * panelGame.ActualWidth / columns);
+                    Canvas.SetTop(r, i * panelGame.ActualHeight / rows);
+                    r.MouseDown += R_MouseDown;
+
+
+                }
+
+            }
+        }
+
+        private void R_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.White : Brushes.Black;
         }
     }
 }
