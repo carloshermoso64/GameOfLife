@@ -22,7 +22,10 @@ namespace TheGameOfLife
     public partial class MainWindow : Window
     {
 
-        private List<Cell> Map = new List<Cell>();
+
+        const int columns = 60;
+        const int rows = 60;
+        Rectangle[,] grid = new Rectangle[columns, rows];
 
         public MainWindow()
         {
@@ -32,7 +35,6 @@ namespace TheGameOfLife
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
-
 
 
 
@@ -64,6 +66,7 @@ namespace TheGameOfLife
                     Canvas.SetTop(r, i * panelGame.ActualHeight / rows);
                     r.MouseDown += R_MouseDown;
 
+                    grid[i, j] = r;
 
                 }
 
@@ -73,6 +76,64 @@ namespace TheGameOfLife
         private void R_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.White : Brushes.Black;
+        }
+
+        private void simulateButton_Click(object sender, RoutedEventArgs e)
+        {
+            int[,] panel = new int[columns, rows];
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+
+                    int superior = i - 1;
+
+                    //boundary
+
+                    int left = i - 1;
+                    int right = i + 1;
+                    int down = j - 1;
+                    int up = j + 1;
+
+                    if (left < 0)
+                    {
+                        left = columns - 1;
+                    }
+                    if (right >= columns)
+                    {
+                        right = 0;
+                    }
+                    if (down < 0 )
+                    {
+                        down = rows - 1;
+                    }
+                    if (up >= rows)
+                    {
+                        up = 0;
+                    }
+
+
+                    int neighbours = 0;
+                    if (grid[i - 1  ,j + 1].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i , j + 1].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i + 1, j + 1].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i - 1, j ].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i + 1, j ].Fill == Brushes.White)
+                    { neighbours++;  }
+                    if (grid[i - 1, j - 1].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i , j - 1].Fill == Brushes.White)
+                    { neighbours++;  }
+                    if (grid[i + 1, j - 1].Fill == Brushes.White)
+                    { neighbours++; }
+
+                    panel[i, j] = neighbours;
+                }
+            }
         }
     }
 }
