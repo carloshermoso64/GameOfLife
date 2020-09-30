@@ -1781,6 +1781,8 @@
             <ComboBoxItem IsSelected="True">Individual</ComboBoxItem>
         </ComboBox>
         <Label Name="lblTime" HorizontalAlignment="Left" Margin="655,176,0,0" VerticalAlignment="Top"/>
-
+        <UniformGrid x:Name="panelGame" Margin="530,299,120,73"> 
+            
+        </UniformGrid>
     </Grid>
 </Window>

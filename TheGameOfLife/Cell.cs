@@ -53,11 +53,29 @@ namespace TheGameOfLife
 
         public int CountNeighbours()
         {
-            int count = 2;
+            int count = 0;
+            Cell up = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 0 && c.coorY == coorY + 1);
+            Cell down = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 0 && c.coorY == coorY - 1);
+            Cell left = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 1 && c.coorY == coorY + 0);
+            Cell right = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 1 && c.coorY == coorY + 0);
+            Cell upleft = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 1 && c.coorY == coorY + 1);
+            Cell upright = Cell.Grid.FirstOrDefault(c => c.coorX == coorX + 1 && c.coorY == coorY + 1);
+            Cell downleft = Cell.Grid.FirstOrDefault(c => c.coorX == coorX - 1 && c.coorY == coorY - 1);
+            Cell downright = Cell.Grid.FirstOrDefault(c => c.coorX == coorX + 1 && c.coorY == coorY - 1);
+
+            if (up.alive) { count++; }
+            if (down.alive) { count++; }
+            if (left.alive) { count++; }
+            if (right.alive) { count++; }
+            if (upleft.alive) { count++; }
+            if (upright.alive) { count++; }
+            if (downleft.alive) { count++; }
+            if (downright.alive) { count++; }
+
             return count;
         }
 
-        public void step()
+        public void StepRules()
         {
             int number_of_neighbours = CountNeighbours();
             if (alive)

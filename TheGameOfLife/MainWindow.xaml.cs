@@ -27,6 +27,14 @@ namespace TheGameOfLife
         public MainWindow()
         {
             InitializeComponent();
+
+            panelGame.Rows = 8;
+            panelGame.Columns = 8;
+            
+
+
+
+
             DispatcherTimer timer = new DispatcherTimer();
             Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => GridSetup()));
             timer.Interval = TimeSpan.FromSeconds(1);
