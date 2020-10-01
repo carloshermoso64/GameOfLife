@@ -75,7 +75,9 @@
             </Button>
         </Border>
         <Label Content="3" HorizontalAlignment="Left" Height="46" Margin="800,372,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold" FontSize="20"/>
-        <TextBox Name="tb_Rows"  HorizontalAlignment="Left" Height="23" Margin="889,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" TextAlignment="Center"/>
-        <TextBox Name="tb_Columns" HorizontalAlignment="Left" Height="23" Margin="989,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" TextAlignment="Center"/>
+        <TextBox Name="tb_Rows"  HorizontalAlignment="Left" Height="23" Margin="889,107,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="69" TextAlignment="Center" TextChanged="tb_Rows_TextChanged"/>
+        <TextBox Name="tb_Columns" HorizontalAlignment="Left" Height="23" Margin="989,107,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" TextAlignment="Center"/>
+        <Label Content="Speed:" HorizontalAlignment="Left" Height="30" Margin="802,445,0,0" VerticalAlignment="Top" Width="85" FontWeight="Bold" FontSize="16"/>
+        <Slider Name="speedSlider"  Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="35" Margin="872,452,0,0" VerticalAlignment="Top" Width="232" Minimum="1"/>
     </Grid>
 </Window>

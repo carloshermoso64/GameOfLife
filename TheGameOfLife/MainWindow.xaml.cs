@@ -32,12 +32,14 @@ namespace TheGameOfLife
         {
             InitializeComponent();
 
-            timer.Interval = TimeSpan.FromSeconds(0.35);
+            timer.Interval = TimeSpan.FromSeconds(0.5);
             timer.Tick += timer_Tick;
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
+            timer.Interval = TimeSpan.FromSeconds(1/speedSlider.Value);
+
             int[,] panel = new int[columns, rows];
             for (int i = 0; i < columns; i++)
             {
@@ -245,6 +247,11 @@ namespace TheGameOfLife
                     }
                 }
             }
+        }
+
+        private void tb_Rows_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
