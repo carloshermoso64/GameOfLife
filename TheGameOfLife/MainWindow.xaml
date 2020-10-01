@@ -34,7 +34,7 @@
         <Label Content="Select the shape you want and click&#xD;&#xA; on some cells in the game panel" HorizontalAlignment="Left" Margin="872,221,0,0" VerticalAlignment="Top" Width="218" Grid.ColumnSpan="2" Height="52" FontWeight="Bold"/>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="114" Margin="831,208,0,0" VerticalAlignment="Top" Width="276"/>
         <Label Content="2" HorizontalAlignment="Left" Height="46" Margin="800,246,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold" FontSize="20"/>
-        <Button x:Name="simulateButton" Content="Simulate" HorizontalAlignment="Left" Margin="847,384,0,0" VerticalAlignment="Top" Width="75" Foreground="White" Click="simulateButton_Click">
+        <Button x:Name="simulateButton" Content="Simulate" HorizontalAlignment="Left" Margin="887,370,0,0" VerticalAlignment="Top" Width="75" Foreground="White" Click="simulateButton_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -43,7 +43,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="935,384,0,0" VerticalAlignment="Top" Width="74" Foreground="White" Grid.ColumnSpan="2" Click="stopButton_Click">
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Foreground="White" Click="stopButton_Click" Margin="935,400,0,0">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -53,7 +53,8 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="restartButton" Content="Restart" HorizontalAlignment="Left" Margin="9.5,384,0,0" VerticalAlignment="Top" Width="76" Foreground="White" Grid.Column="1" Click="restartButton_Click">
+
+        <Button x:Name="restartButton" Content="Restart" HorizontalAlignment="Left" Margin="-30,370,0,0" VerticalAlignment="Top" Width="76" Foreground="White" Grid.Column="1" Click="restartButton_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -62,7 +63,17 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="72" Margin="834,356,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="72" Margin="834,356,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2">
+            <Button Name="NextStepButton"  Content="Next Step" HorizontalAlignment="Left" Height="19" Margin="182,44,0,0" VerticalAlignment="Top" Width="73" Foreground="White" Click="NextStepButton_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="#FF1B82E1" Offset="1"/>
+                        <GradientStop Color="#FF0D4273" Offset="0.253"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </Border>
         <Label Content="3" HorizontalAlignment="Left" Height="46" Margin="800,372,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold" FontSize="20"/>
         <TextBox Name="tb_Rows"  HorizontalAlignment="Left" Height="23" Margin="889,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" TextAlignment="Center"/>
         <TextBox Name="tb_Columns" HorizontalAlignment="Left" Height="23" Margin="989,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" TextAlignment="Center"/>

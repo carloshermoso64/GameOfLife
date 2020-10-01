@@ -25,6 +25,7 @@ namespace TheGameOfLife
         public int rows;
         Rectangle[,] grid;
         DispatcherTimer timer = new DispatcherTimer();
+        bool stopped = false;
 
 
         public MainWindow()
@@ -33,7 +34,6 @@ namespace TheGameOfLife
 
             timer.Interval = TimeSpan.FromSeconds(0.35);
             timer.Tick += timer_Tick;
-
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -92,7 +92,6 @@ namespace TheGameOfLife
                     { neighbours++; }
 
                     panel[i, j] = neighbours;
-                    
                 }
             }
 
@@ -141,8 +140,6 @@ namespace TheGameOfLife
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.White : Brushes.Black;
         }
 
- 
-
         private void simulateButton_Click(object sender, RoutedEventArgs e)
         {
             timer.Start();
@@ -150,7 +147,16 @@ namespace TheGameOfLife
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
+            if (stopped == false)
+            { 
+                timer.Stop();
+                stopped = true;
+            }
+            else if(stopped)
+            { 
+                timer.Start();
+                stopped = false;
+            }
         }
 
         private void restartButton_Click(object sender, RoutedEventArgs e)
@@ -161,6 +167,82 @@ namespace TheGameOfLife
                 for (int j = 0; j < rows; j++)
                 {
                     grid[i, j].Fill = Brushes.Black;
+                }
+            }
+        }
+
+        private void NextStepButton_Click(object sender, RoutedEventArgs e)
+        {
+            int[,] panel = new int[columns, rows];
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+
+                    int superior = i - 1;
+
+                    //boundary
+
+                    int left = i - 1;
+                    int right = i + 1;
+                    int down = j - 1;
+                    int up = j + 1;
+
+
+                    if (left < 0)
+                    {
+                        left = columns - 1;
+                    }
+                    if (right >= columns)
+                    {
+                        right = 0;
+                    }
+                    if (down < 0)
+                    {
+                        down = rows - 1;
+                    }
+                    if (up >= rows)
+                    {
+                        up = 0;
+                    }
+
+                    // Count neighbours
+
+                    int neighbours = 0;
+                    if (grid[left, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[left, j].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, j].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[left, down].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i, down].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, down].Fill == Brushes.White)
+                    { neighbours++; }
+
+                    panel[i, j] = neighbours;
+
+                }
+            }
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (panel[i, j] < 2 || panel[i, j] > 3)
+                    {
+                        grid[i, j].Fill = Brushes.Black;
+                    }
+                    else if (panel[i, j] == 3)
+                    {
+                        grid[i, j].Fill = Brushes.White;
+                    }
                 }
             }
         }

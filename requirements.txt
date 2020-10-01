@@ -1,0 +1,7 @@
+tiene que permitir decidir las dimensiones de la rejilla
+tiene que permitirv la posición inicial de las bacterias
+tiene que permitir elejeir tipo de bacteria
+tiene que permitir ir paso por paso, ir automaticamente, cambio de velocidad
+poder guardar la partida en cualquier momento
+poder generar nuevas bacterias
+buena organizacion del codigo(constructor, etc...)
