@@ -159,5 +159,17 @@ namespace TheGameOfLife
         {
             timer.Stop();
         }
+
+        private void restartButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    grid[i, j].Fill = Brushes.Black;
+                }
+            }
+        }
     }
 }
