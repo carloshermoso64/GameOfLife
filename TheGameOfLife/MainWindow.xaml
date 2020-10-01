@@ -64,7 +64,7 @@
         </Button>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="72" Margin="834,356,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2"/>
         <Label Content="3" HorizontalAlignment="Left" Height="46" Margin="800,372,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold" FontSize="20"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="889,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" TextAlignment="Center"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="989,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" TextAlignment="Center"/>
+        <TextBox Name="tb_Rows"  HorizontalAlignment="Left" Height="23" Margin="889,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" TextAlignment="Center"/>
+        <TextBox Name="tb_Columns" HorizontalAlignment="Left" Height="23" Margin="989,107,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" TextAlignment="Center"/>
     </Grid>
 </Window>

@@ -21,11 +21,9 @@ namespace TheGameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
-        const int columns = 60;
-        const int rows = 60;
-        Rectangle[,] grid = new Rectangle[columns, rows];
+        public int columns;
+        public int rows;
+        Rectangle[,] grid;
         DispatcherTimer timer = new DispatcherTimer();
 
 
@@ -33,7 +31,7 @@ namespace TheGameOfLife
         {
             InitializeComponent();
 
-            timer.Interval = TimeSpan.FromSeconds(0.5);
+            timer.Interval = TimeSpan.FromSeconds(0.35);
             timer.Tick += timer_Tick;
 
         }
@@ -114,14 +112,11 @@ namespace TheGameOfLife
             }
         }
 
-        
-
-  
-
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            int columns = 60;
-            int rows = 60;
+            columns = Convert.ToInt32(tb_Columns.Text);
+            rows = Convert.ToInt32(tb_Rows.Text);
+            grid = new Rectangle[columns, rows];
 
             for (int i = 0; i < rows; i++)
             {
@@ -137,9 +132,7 @@ namespace TheGameOfLife
                     r.MouseDown += R_MouseDown;
 
                     grid[i, j] = r;
-
                 }
-
             }
         }
 
