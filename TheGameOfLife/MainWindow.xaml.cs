@@ -26,25 +26,95 @@ namespace TheGameOfLife
         const int columns = 60;
         const int rows = 60;
         Rectangle[,] grid = new Rectangle[columns, rows];
+        DispatcherTimer timer = new DispatcherTimer();
+
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromSeconds(0.5);
             timer.Tick += timer_Tick;
-            timer.Start();
-
-
-
 
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
-            lblTime.Content = DateTime.Now.ToLongTimeString();
+            int[,] panel = new int[columns, rows];
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+
+                    int superior = i - 1;
+
+                    //boundary
+
+                    int left = i - 1;
+                    int right = i + 1;
+                    int down = j - 1;
+                    int up = j + 1;
+                    
+
+                    if (left < 0)
+                    {
+                        left = columns - 1;
+                    }
+                    if (right >= columns)
+                    {
+                        right = 0;
+                    }
+                    if (down < 0)
+                    {
+                        down = rows - 1;
+                    }
+                    if (up >= rows)
+                    {
+                        up = 0;
+                    }
+
+                    // Count neighbours
+
+                    int neighbours = 0;
+                    if (grid[left, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, up].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[left, j].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, j].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[left, down].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[i, down].Fill == Brushes.White)
+                    { neighbours++; }
+                    if (grid[right, down].Fill == Brushes.White)
+                    { neighbours++; }
+
+                    panel[i, j] = neighbours;
+                    
+                }
+            }
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (panel[i, j] < 2 || panel[i, j] > 3)
+                    {
+                        grid[i, j].Fill = Brushes.Black;
+                    }
+                    else if (panel[i, j] == 3)
+                    {
+                        grid[i, j].Fill = Brushes.White;
+                    }
+                }
+            }
         }
+
+        
 
   
 
@@ -78,78 +148,16 @@ namespace TheGameOfLife
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.White : Brushes.Black;
         }
 
+ 
+
         private void simulateButton_Click(object sender, RoutedEventArgs e)
         {
-            int[,] panel = new int[columns, rows];
-            for (int i = 0; i < columns; i++)
-            {
-                for (int j = 0; j < rows; j++)
-                {
+            timer.Start();
+        }
 
-                    int superior = i - 1;
-
-                    //boundary
-
-                    int left = i - 1;
-                    int right = i + 1;
-                    int down = j - 1;
-                    int up = j + 1;
-
-                    if (left < 0)
-                    {
-                        left = columns - 1;
-                    }
-                    if (right >= columns)
-                    {
-                        right = 0;
-                    }
-                    if (down < 0 )
-                    {
-                        down = rows - 1;
-                    }
-                    if (up >= rows)
-                    {
-                        up = 0;
-                    }
-
-                    // Count neighbours
-
-                    int neighbours = 0;
-                    if (grid[left  ,up ].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i , up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[left, j ].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, j ].Fill == Brushes.White)
-                    { neighbours++;  }
-                    if (grid[left, down].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i , down].Fill == Brushes.White)
-                    { neighbours++;  }
-                    if (grid[right, down].Fill == Brushes.White)
-                    { neighbours++; }
-
-                    panel[i, j] = neighbours;
-                }
-            }
-
-            for (int i = 0; i < columns; i++)
-            {
-                for (int j = 0; j < rows; j++)
-                {
-                    if (panel[i, j] < 2 || panel[i,j] > 3)
-                    {
-                        grid[i, j].Fill = Brushes.Black;
-                    }
-                    else if (panel[i,j] == 3)
-                    {
-                        grid[i, j].Fill = Brushes.White;
-                    }
-                }
-            }
+        private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
         }
     }
 }

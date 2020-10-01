@@ -15,7 +15,6 @@
             <ComboBoxItem IsSelected="True">Individual</ComboBoxItem>
 
         </ComboBox>
-        <Label Name="lblTime" HorizontalAlignment="Left" Margin="71,537,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <Canvas x:Name="panelGame" HorizontalAlignment="Left" Height="523" Margin="24,24,0,0" VerticalAlignment="Top" Width="735">
         </Canvas>
         <Button x:Name="startButton" Content="Load panel" HorizontalAlignment="Left" Margin="934,139,0,0" VerticalAlignment="Top" Width="74" Click="startButton_Click" Foreground="#FFFFF7F7" BorderBrush="#FF4C4545" RenderTransformOrigin="-0.74,22.487">
@@ -44,7 +43,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="935,384,0,0" VerticalAlignment="Top" Width="74" Foreground="White" Grid.ColumnSpan="2">
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="935,384,0,0" VerticalAlignment="Top" Width="74" Foreground="White" Grid.ColumnSpan="2" Click="stopButton_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
