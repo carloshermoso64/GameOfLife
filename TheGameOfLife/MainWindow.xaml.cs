@@ -58,8 +58,8 @@ namespace TheGameOfLife
                 for (int j = 0; j < columns; j++)
                 {
                     Rectangle r = new Rectangle();
-                    r.Width = panelGame.ActualWidth / columns -1.0;
-                    r.Height = panelGame.ActualHeight / rows -1.0;
+                    r.Width = panelGame.ActualWidth / columns -0.75;
+                    r.Height = panelGame.ActualHeight / rows -0.75;
                     r.Fill = Brushes.Black;
                     panelGame.Children.Add(r);
                     Canvas.SetLeft(r, j * panelGame.ActualWidth / columns);
@@ -112,26 +112,42 @@ namespace TheGameOfLife
                         up = 0;
                     }
 
+                    // Count neighbours
 
                     int neighbours = 0;
-                    if (grid[i - 1  ,j + 1].Fill == Brushes.White)
+                    if (grid[left  ,up ].Fill == Brushes.White)
                     { neighbours++; }
-                    if (grid[i , j + 1].Fill == Brushes.White)
+                    if (grid[i , up].Fill == Brushes.White)
                     { neighbours++; }
-                    if (grid[i + 1, j + 1].Fill == Brushes.White)
+                    if (grid[right, up].Fill == Brushes.White)
                     { neighbours++; }
-                    if (grid[i - 1, j ].Fill == Brushes.White)
+                    if (grid[left, j ].Fill == Brushes.White)
                     { neighbours++; }
-                    if (grid[i + 1, j ].Fill == Brushes.White)
+                    if (grid[right, j ].Fill == Brushes.White)
                     { neighbours++;  }
-                    if (grid[i - 1, j - 1].Fill == Brushes.White)
+                    if (grid[left, down].Fill == Brushes.White)
                     { neighbours++; }
-                    if (grid[i , j - 1].Fill == Brushes.White)
+                    if (grid[i , down].Fill == Brushes.White)
                     { neighbours++;  }
-                    if (grid[i + 1, j - 1].Fill == Brushes.White)
+                    if (grid[right, down].Fill == Brushes.White)
                     { neighbours++; }
 
                     panel[i, j] = neighbours;
+                }
+            }
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (panel[i, j] < 2 || panel[i,j] > 3)
+                    {
+                        grid[i, j].Fill = Brushes.Black;
+                    }
+                    else if (panel[i,j] == 3)
+                    {
+                        grid[i, j].Fill = Brushes.White;
+                    }
                 }
             }
         }
