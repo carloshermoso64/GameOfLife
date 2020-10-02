@@ -136,6 +136,12 @@ namespace TheGameOfLife
         private void restartButton_Click(object sender, RoutedEventArgs e)
         {
             timer.Stop();
+
+            for(int i = stackmatrices.Count; i>1; i--)
+            {
+                stackmatrices.Pop();
+            }
+
             for (int i = 0; i < columns; i++)
             {
                 for (int j = 0; j < rows; j++)
