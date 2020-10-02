@@ -1,4 +1,4 @@
-tiene que permitir decidir las dimensiones de la rejilla (falta arreglar tema de que con numero de filas y columnas diferentes peta)
+ - tiene que permitir decidir las dimensiones de la rejilla (falta arreglar tema de que con numero de filas y columnas diferentes peta)
  - tiene que permitir la posición inicial de las bacterias
  - tiene que permitir ir paso por paso, 
  - tiene que permitir ir automaticamente

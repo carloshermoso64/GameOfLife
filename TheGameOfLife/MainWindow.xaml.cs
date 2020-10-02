@@ -43,9 +43,9 @@ namespace TheGameOfLife
             MatrizdeCells oldmatrix = stackmatrices.Pop();
             MatrizdeCells newmatrix = new MatrizdeCells(rows, columns);
 
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < rows; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     if (oldmatrix.matrix[i, j].alive == true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
                     {
@@ -72,8 +72,8 @@ namespace TheGameOfLife
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            rows = Convert.ToInt32(tb_Columns.Text);
-            columns = Convert.ToInt32(tb_Rows.Text);
+            rows = Convert.ToInt32(tb_Rows.Text);
+            columns = Convert.ToInt32(tb_Columns.Text);
             grid = new Rectangle[rows, columns];
             MatrizdeCells newMatrix = new MatrizdeCells(rows, columns);  // Cuando creamos la grid todas las celulas las inicializamos muertas (al crear un obj matriz ya creamos una matriz de celulas muertas)
             stackmatrices.Push(newMatrix);
@@ -102,7 +102,7 @@ namespace TheGameOfLife
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? (Brushes.White) : Brushes.Black;
 
             // creamos nuevo objeto matrix, le aplicamos los cambios hechos por el Mouse Click y la añadimos al stack de matrices
-            MatrizdeCells newMatrix = new MatrizdeCells(columns, rows);
+            MatrizdeCells newMatrix = new MatrizdeCells(rows, columns);
             for (int i = 0; i < rows; i++) // Cada vezs que hacemos un cambio en la grid la recorremos y metemos los cambios en la Matriz de celulas
             {
                 for (int j = 0; j < columns; j++)
@@ -156,9 +156,9 @@ namespace TheGameOfLife
             MatrizdeCells oldmatrix = stackmatrices.Pop();
             MatrizdeCells newmatrix = new MatrizdeCells(rows, columns);
 
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < rows; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     if (oldmatrix.matrix[i,j].alive==true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
                     {
@@ -198,9 +198,9 @@ namespace TheGameOfLife
             {
                 MatrizdeCells matrix1 = stackmatrices.Pop();
 
-                for (int i = 0; i < columns; i++)
+                for (int i = 0; i < rows; i++)
                 {
-                    for (int j = 0; j < rows; j++)
+                    for (int j = 0; j < columns; j++)
                     {
                         if (matrix1.matrix[i, j].alive == true) { grid[i, j].Fill = Brushes.White; }
                         else { grid[i, j].Fill = Brushes.Black; }
