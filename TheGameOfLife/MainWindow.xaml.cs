@@ -27,6 +27,8 @@ namespace TheGameOfLife
         DispatcherTimer timer = new DispatcherTimer();
         bool stopped = false;
 
+        Stack<MatrizdeCells> stackmatrices = new Stack<MatrizdeCells>();
+
 
         public MainWindow()
         {
@@ -38,87 +40,45 @@ namespace TheGameOfLife
 
         void timer_Tick(object sender, EventArgs e)
         {
-            timer.Interval = TimeSpan.FromSeconds(1/speedSlider.Value);
-
-            int[,] panel = new int[columns, rows];
-            for (int i = 0; i < columns; i++)
-            {
-                for (int j = 0; j < rows; j++)
-                {
-
-                    int superior = i - 1;
-
-                    //boundary
-
-                    int left = i - 1;
-                    int right = i + 1;
-                    int down = j - 1;
-                    int up = j + 1;
-                    
-
-                    if (left < 0)
-                    {
-                        left = columns - 1;
-                    }
-                    if (right >= columns)
-                    {
-                        right = 0;
-                    }
-                    if (down < 0)
-                    {
-                        down = rows - 1;
-                    }
-                    if (up >= rows)
-                    {
-                        up = 0;
-                    }
-
-                    // Count neighbours
-
-                    int neighbours = 0;
-                    if (grid[left, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[left, j].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, j].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[left, down].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i, down].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, down].Fill == Brushes.White)
-                    { neighbours++; }
-
-                    panel[i, j] = neighbours;
-                }
-            }
+            MatrizdeCells oldmatrix = stackmatrices.Pop();
+            MatrizdeCells newmatrix = new MatrizdeCells(rows, columns);
 
             for (int i = 0; i < columns; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    if (panel[i, j] < 2 || panel[i, j] > 3)
-                    {
-                        grid[i, j].Fill = Brushes.Black;
-                    }
-                    else if (panel[i, j] == 3)
+                    if (oldmatrix.matrix[i, j].alive == true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
                     {
                         grid[i, j].Fill = Brushes.White;
+                        newmatrix.matrix[i, j].alive = true;
+                    }
+                    else
+                    {
+                        newmatrix.matrix[i, j].alive = false;
+                        grid[i, j].Fill = Brushes.Black;
+                    }
+
+                    if (oldmatrix.matrix[i, j].alive == false && oldmatrix.CountAliveNeibourghs(i, j) == 3)
+                    {
+                        grid[i, j].Fill = Brushes.White;
+                        newmatrix.matrix[i, j].alive = true;
                     }
                 }
             }
+            stackmatrices.Push(oldmatrix);
+            stackmatrices.Push(newmatrix);
         }
+
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            columns = Convert.ToInt32(tb_Columns.Text);
-            rows = Convert.ToInt32(tb_Rows.Text);
-            grid = new Rectangle[columns, rows];
+            rows = Convert.ToInt32(tb_Columns.Text);
+            columns = Convert.ToInt32(tb_Rows.Text);
+            grid = new Rectangle[rows, columns];
+            MatrizdeCells newMatrix = new MatrizdeCells(rows, columns);  // Cuando creamos la grid todas las celulas las inicializamos muertas (al crear un obj matriz ya creamos una matriz de celulas muertas)
+            stackmatrices.Push(newMatrix);
 
+            // Inicializamos la parte grafica
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
@@ -139,7 +99,19 @@ namespace TheGameOfLife
 
         private void R_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? Brushes.White : Brushes.Black;
+            ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? (Brushes.White) : Brushes.Black;
+
+            // creamos nuevo objeto matrix, le aplicamos los cambios hechos por el Mouse Click y la añadimos al stack de matrices
+            MatrizdeCells newMatrix = new MatrizdeCells(columns, rows);
+            for (int i = 0; i < rows; i++) // Cada vezs que hacemos un cambio en la grid la recorremos y metemos los cambios en la Matriz de celulas
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (grid[i, j].Fill == Brushes.White) { newMatrix.matrix[i, j].alive = true; }
+                    else if (grid[i, j].Fill == Brushes.Black) { newMatrix.matrix[i, j].alive = false; }
+                }
+            }
+            stackmatrices.Push(newMatrix);
         }
 
         private void simulateButton_Click(object sender, RoutedEventArgs e)
@@ -175,83 +147,65 @@ namespace TheGameOfLife
 
         private void NextStepButton_Click(object sender, RoutedEventArgs e)
         {
-            int[,] panel = new int[columns, rows];
-            for (int i = 0; i < columns; i++)
-            {
-                for (int j = 0; j < rows; j++)
-                {
-
-                    int superior = i - 1;
-
-                    //boundary
-
-                    int left = i - 1;
-                    int right = i + 1;
-                    int down = j - 1;
-                    int up = j + 1;
-
-
-                    if (left < 0)
-                    {
-                        left = columns - 1;
-                    }
-                    if (right >= columns)
-                    {
-                        right = 0;
-                    }
-                    if (down < 0)
-                    {
-                        down = rows - 1;
-                    }
-                    if (up >= rows)
-                    {
-                        up = 0;
-                    }
-
-                    // Count neighbours
-
-                    int neighbours = 0;
-                    if (grid[left, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, up].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[left, j].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, j].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[left, down].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[i, down].Fill == Brushes.White)
-                    { neighbours++; }
-                    if (grid[right, down].Fill == Brushes.White)
-                    { neighbours++; }
-
-                    panel[i, j] = neighbours;
-
-                }
-            }
+            MatrizdeCells oldmatrix = stackmatrices.Pop();
+            MatrizdeCells newmatrix = new MatrizdeCells(rows, columns);
 
             for (int i = 0; i < columns; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    if (panel[i, j] < 2 || panel[i, j] > 3)
-                    {
-                        grid[i, j].Fill = Brushes.Black;
-                    }
-                    else if (panel[i, j] == 3)
+                    if (oldmatrix.matrix[i,j].alive==true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
                     {
                         grid[i, j].Fill = Brushes.White;
+                        newmatrix.matrix[i, j].alive = true;
+                    }
+                    else 
+                    {
+                        newmatrix.matrix[i, j].alive = false;
+                        grid[i, j].Fill = Brushes.Black;
+                    }
+
+                    if (oldmatrix.matrix[i, j].alive == false && oldmatrix.CountAliveNeibourghs(i, j) == 3)
+                    {
+                        grid[i, j].Fill = Brushes.White;
+                        newmatrix.matrix[i, j].alive = true;
                     }
                 }
             }
+            stackmatrices.Push(oldmatrix);
+            stackmatrices.Push(newmatrix);
         }
 
         private void tb_Rows_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PreviousStepButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (stackmatrices.Count > 0)
+            {
+                MatrizdeCells matrix1 = stackmatrices.Pop();
+
+                for (int i = 0; i < columns; i++)
+                {
+                    for (int j = 0; j < rows; j++)
+                    {
+                        if (matrix1.matrix[i, j].alive == true) { grid[i, j].Fill = Brushes.White; }
+                        else { grid[i, j].Fill = Brushes.Black; }
+                    }
+                }
+            }
+
+            else
+            {
+                MessageBox.Show("There are no previous steps.");
+            }
         }
     }
 }
