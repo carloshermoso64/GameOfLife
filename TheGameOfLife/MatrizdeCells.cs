@@ -80,5 +80,229 @@ namespace TheGameOfLife
 
             return neighbours;
         }
+
+        public bool isAlive_UpLeft(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[up,left].alive;
+        }
+
+        public bool isAlive_UpRight(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[up, right].alive;
+        }
+
+        public bool isAlive_Up(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[up, j].alive;
+        }
+
+        public bool isAlive_Left(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[i, left].alive;
+        }
+
+        public bool isAlive_Right(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[i, right].alive;
+        }
+
+        public bool isAlive_BottomLeft(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[down, left].alive;
+        }
+
+        public bool isAlive_BottomRight(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[down, right].alive;
+        }
+
+        public bool isAlive_Bottom(int i, int j)
+        {
+            int left = j - 1;
+            int right = j + 1;
+            int down = i + 1;
+            int up = i - 1;
+
+
+            if (left < 0)
+            {
+                left = columns - 1;
+            }
+            if (right >= columns)
+            {
+                right = 0;
+            }
+            if (up < 0)
+            {
+                up = rows - 1;
+            }
+            if (down >= rows)
+            {
+                down = 0;
+            }
+
+            return this.matrix[down, j].alive;
+        }
     }
 }

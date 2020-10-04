@@ -73,7 +73,29 @@ namespace TheGameOfLife
                     }
                     else
                     {
+                        int k = 0;
+                        while (k < listCellTypes.Count)
+                        {
+                            if (listCellTypes[k].Name == oldmatrix.matrix[i,j].celtype.ToString())
+                            {
+                                break;
+                            }
+                            k = k + 1;
+                        }
 
+                        CellType celltype1 = listCellTypes[k];
+
+                        if(oldmatrix.isAlive_UpLeft(i,j)==celltype1.reviveif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.reviveif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.reviveif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.reviveif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.reviveif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.reviveif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.reviveif_bottom_alive && oldmatrix.matrix[i, j].alive == false)
+                        {
+                            grid[i, j].Fill = Brushes.White;
+                            newmatrix.matrix[i, j].alive = true;
+                        }
+
+                        if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
+                        {
+                            grid[i, j].Fill = Brushes.Black;
+                            newmatrix.matrix[i, j].alive = false;
+                        }
                     }
                 }
             }
@@ -186,21 +208,52 @@ namespace TheGameOfLife
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (oldmatrix.matrix[i,j].alive==true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
+                    if (oldmatrix.matrix[i, j].celtype == null) // si la cell no tiene tipo (e el timpo de celula basico) y usamos las reglas del ppio
                     {
-                        grid[i, j].Fill = Brushes.White;
-                        newmatrix.matrix[i, j].alive = true;
-                    }
-                    else 
-                    {
-                        newmatrix.matrix[i, j].alive = false;
-                        grid[i, j].Fill = Brushes.Black;
-                    }
+                        if (oldmatrix.matrix[i, j].alive == true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
+                        {
+                            grid[i, j].Fill = Brushes.White;
+                            newmatrix.matrix[i, j].alive = true;
+                        }
+                        else
+                        {
+                            newmatrix.matrix[i, j].alive = false;
+                            grid[i, j].Fill = Brushes.Black;
+                        }
 
-                    if (oldmatrix.matrix[i, j].alive == false && oldmatrix.CountAliveNeibourghs(i, j) == 3)
+                        if (oldmatrix.matrix[i, j].alive == false && oldmatrix.CountAliveNeibourghs(i, j) == 3)
+                        {
+                            grid[i, j].Fill = Brushes.White;
+                            newmatrix.matrix[i, j].alive = true;
+                        }
+                    }
+                    else
                     {
-                        grid[i, j].Fill = Brushes.White;
-                        newmatrix.matrix[i, j].alive = true;
+                        int k = 0;
+                        while (k < listCellTypes.Count)
+                        {
+                            if(j==1 && i==1)
+                            {
+
+                            }
+                            if (listCellTypes[k].Name == oldmatrix.matrix[i, j].celtype.Name.ToString())
+                            {
+                                CellType celltype1 = listCellTypes[k];
+
+                                if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.reviveif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.reviveif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.reviveif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.reviveif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.reviveif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.reviveif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.reviveif_bottom_alive && oldmatrix.matrix[i, j].alive == false)
+                                {
+                                    grid[i, j].Fill = Brushes.White;
+                                    newmatrix.matrix[i, j].alive = true;
+                                }
+
+                                if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
+                                {
+                                    grid[i, j].Fill = Brushes.Black;
+                                    newmatrix.matrix[i, j].alive = false;
+                                }
+                            }
+                            k = k + 1;
+                        }
                     }
                 }
             }
