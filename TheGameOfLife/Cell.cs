@@ -12,6 +12,7 @@ namespace TheGameOfLife
     class Cell
     {
         public bool alive;
+        public CellType celtype;
         public Cell()
         {
             this.alive = false;

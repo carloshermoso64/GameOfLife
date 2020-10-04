@@ -90,7 +90,7 @@
             <ComboBoxItem IsSelected="True" Content="Alive"/>
             <ComboBoxItem IsSelected="True" Content="Dead"/>
         </ComboBox>
-        <Button Name="bt_CreateNewCell"  Content="Create" HorizontalAlignment="Left" Height="30" Margin="231,401,0,0" VerticalAlignment="Top" Width="179" Click="bt_CreateNewCell_Click"/>
+        <Button Name="bt_CreateNewCell"  Content="Create" HorizontalAlignment="Left" Height="30" Margin="380,406,0,0" VerticalAlignment="Top" Width="179" Click="bt_CreateNewCell_Click"/>
         <Label Content="Type Name:" HorizontalAlignment="Left" Height="26" Margin="178,72,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox Name="tb_Name"  HorizontalAlignment="Left" Height="26" Margin="256,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
     </Grid>
