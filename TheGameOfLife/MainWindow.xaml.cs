@@ -28,6 +28,7 @@ namespace TheGameOfLife
         bool stopped = false;
 
         Stack<MatrizdeCells> stackmatrices = new Stack<MatrizdeCells>();
+        List<CellType> listCellTypes = new List<CellType>();
 
 
         public MainWindow()
@@ -40,6 +41,8 @@ namespace TheGameOfLife
 
         void timer_Tick(object sender, EventArgs e)
         {
+            timer.Interval = TimeSpan.FromSeconds(1 / Convert.ToDouble(speedSlider.Value));
+
             MatrizdeCells oldmatrix = stackmatrices.Pop();
             MatrizdeCells newmatrix = new MatrizdeCells(rows, columns);
 
@@ -96,7 +99,6 @@ namespace TheGameOfLife
                 }
             }
         }
-
         private void R_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ((Rectangle)sender).Fill = (((Rectangle)sender).Fill == Brushes.Black) ? (Brushes.White) : Brushes.Black;
@@ -212,6 +214,31 @@ namespace TheGameOfLife
             {
                 MessageBox.Show("There are no previous steps.");
             }
+        }
+
+        private void ComboBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            for (int i = 0; i < listCellTypes.Count(); i++)
+            {
+                ComboBox_TypeofCell.Items.Add(listCellTypes[i].Name);
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_CreateNewCell_Click_1(object sender, RoutedEventArgs e)
+        {
+            CreateNewCellType CreateNewCellTye1 = new CreateNewCellType(listCellTypes);
+            CreateNewCellTye1.ShowDialog();
+            listCellTypes = CreateNewCellTye1.listaTypeofCells;
         }
     }
 }
