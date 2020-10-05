@@ -30,9 +30,6 @@ namespace TheGameOfLife
         Stack<MatrizdeCells> stackmatrices = new Stack<MatrizdeCells>();
         List<CellType> listCellTypes = new List<CellType>();
 
-        int lengthlistaCellTypes;
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -52,7 +49,7 @@ namespace TheGameOfLife
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if(oldmatrix.matrix[i,j].celtype==null) // si la cell no tiene tipo (e el timpo de celula basico) y usamos las reglas del ppio
+                    if (oldmatrix.matrix[i, j].celtype == null) // si la cell no tiene tipo (e el timpo de celula basico) y usamos las reglas del ppio
                     {
                         if (oldmatrix.matrix[i, j].alive == true && (oldmatrix.CountAliveNeibourghs(i, j) == 2 || oldmatrix.CountAliveNeibourghs(i, j) == 3))
                         {
@@ -76,25 +73,29 @@ namespace TheGameOfLife
                         int k = 0;
                         while (k < listCellTypes.Count)
                         {
-                            if (listCellTypes[k].Name == oldmatrix.matrix[i,j].celtype.ToString())
+                            if (j == 1 && i == 1)
                             {
-                                break;
+
+                            }
+                            if (listCellTypes[k].Name == oldmatrix.matrix[i, j].celtype.Name.ToString())
+                            {
+                                CellType celltype1 = listCellTypes[k];
+
+                                if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.reviveif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.reviveif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.reviveif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.reviveif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.reviveif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.reviveif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.reviveif_bottom_alive && oldmatrix.matrix[i, j].alive == false)
+                                {
+                                    grid[i, j].Fill = Brushes.White;
+                                    newmatrix.matrix[i, j].alive = true;
+                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
+                                }
+
+                                if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
+                                {
+                                    grid[i, j].Fill = Brushes.Black;
+                                    newmatrix.matrix[i, j].alive = false;
+                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
+                                }
                             }
                             k = k + 1;
-                        }
-
-                        CellType celltype1 = listCellTypes[k];
-
-                        if(oldmatrix.isAlive_UpLeft(i,j)==celltype1.reviveif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.reviveif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.reviveif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.reviveif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.reviveif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.reviveif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.reviveif_bottom_alive && oldmatrix.matrix[i, j].alive == false)
-                        {
-                            grid[i, j].Fill = Brushes.White;
-                            newmatrix.matrix[i, j].alive = true;
-                        }
-
-                        if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
-                        {
-                            grid[i, j].Fill = Brushes.Black;
-                            newmatrix.matrix[i, j].alive = false;
                         }
                     }
                 }
@@ -143,20 +144,40 @@ namespace TheGameOfLife
                     if (grid[i, j].Fill == Brushes.White) { newMatrix.matrix[i, j].alive = true; }
                     else if (grid[i, j].Fill == Brushes.Black) { newMatrix.matrix[i, j].alive = false; }
 
-                    if(ComboBox_TypeofCell.Text != "Classic Cell")
+                    newMatrix.matrix[i, j].celtype = stackmatrices.First().matrix[i, j].celtype; // las celulas nuevas son del mismo tipo que en la iteracion anterior (a no ser que lo clickemos y lo cambiemos, que es de lo que va el resto del codigo)
+
+                    if(grid[i, j].Fill == Brushes.White && stackmatrices.First().matrix[i,j].alive==false) // si una cell ahora esta viva y antes estaba muerta (es decir, le hemos dado vida clickando encima, asignale el celltype que hay en el combobox ahora mismo )
                     {
-                        // si en el combobox no estamos en "classic cell" (estamos poniendo otro tipo de cell) buscamos ese nombre en la lista de tipos y le asignamos ese tipo a esa celula
-                        int k = 0;
-                        while (k < listCellTypes.Count)
+                        if (ComboBox_TypeofCell.Text != "Classic Cell")
                         {
-                            if (listCellTypes[k].Name == ComboBox_TypeofCell.Text)
+                            // si en el combobox no estamos en "classic cell" (estamos poniendo otro tipo de cell) buscamos ese nombre en la lista de tipos y le asignamos ese tipo a esa celula
+                            int k = 0;
+                            while (k < listCellTypes.Count)
                             {
-                                break;
+                                if (listCellTypes[k].Name == ComboBox_TypeofCell.Text)
+                                {
+                                    newMatrix.matrix[i, j].celtype = listCellTypes[k];
+                                    break;
+                                }
+                                k = k + 1;
                             }
-                            k = k + 1;
                         }
-                        newMatrix.matrix[i, j].celtype = listCellTypes[k];
                     }
+
+                    //if(ComboBox_TypeofCell.Text != "Classic Cell")
+                    //{
+                    //     si en el combobox no estamos en "classic cell" (estamos poniendo otro tipo de cell) buscamos ese nombre en la lista de tipos y le asignamos ese tipo a esa celula
+                    //    int k = 0;
+                    //    while (k < listCellTypes.Count)
+                    //    {
+                    //        if (listCellTypes[k].Name == ComboBox_TypeofCell.Text)
+                    //        {
+                    //            newMatrix.matrix[i, j].celtype = listCellTypes[k];
+                    //            break;
+                    //        }
+                    //        k = k + 1;
+                    //    }
+                    //}
                 }
             }
             stackmatrices.Push(newMatrix);
@@ -232,10 +253,6 @@ namespace TheGameOfLife
                         int k = 0;
                         while (k < listCellTypes.Count)
                         {
-                            if(j==1 && i==1)
-                            {
-
-                            }
                             if (listCellTypes[k].Name == oldmatrix.matrix[i, j].celtype.Name.ToString())
                             {
                                 CellType celltype1 = listCellTypes[k];
@@ -244,12 +261,14 @@ namespace TheGameOfLife
                                 {
                                     grid[i, j].Fill = Brushes.White;
                                     newmatrix.matrix[i, j].alive = true;
+                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
                                 }
 
                                 if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
                                 {
                                     grid[i, j].Fill = Brushes.Black;
                                     newmatrix.matrix[i, j].alive = false;
+                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
                                 }
                             }
                             k = k + 1;
