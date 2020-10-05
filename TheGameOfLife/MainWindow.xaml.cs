@@ -163,21 +163,6 @@ namespace TheGameOfLife
                             }
                         }
                     }
-
-                    //if(ComboBox_TypeofCell.Text != "Classic Cell")
-                    //{
-                    //     si en el combobox no estamos en "classic cell" (estamos poniendo otro tipo de cell) buscamos ese nombre en la lista de tipos y le asignamos ese tipo a esa celula
-                    //    int k = 0;
-                    //    while (k < listCellTypes.Count)
-                    //    {
-                    //        if (listCellTypes[k].Name == ComboBox_TypeofCell.Text)
-                    //        {
-                    //            newMatrix.matrix[i, j].celtype = listCellTypes[k];
-                    //            break;
-                    //        }
-                    //        k = k + 1;
-                    //    }
-                    //}
                 }
             }
             stackmatrices.Push(newMatrix);
