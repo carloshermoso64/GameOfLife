@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,6 +113,7 @@ namespace TheGameOfLife
             columns = Convert.ToInt32(tb_Columns.Text);
             grid = new Rectangle[rows, columns];
             MatrizdeCells newMatrix = new MatrizdeCells(rows, columns);  // Cuando creamos la grid todas las celulas las inicializamos muertas (al crear un obj matriz ya creamos una matriz de celulas muertas)
+            stackmatrices.Clear();
             stackmatrices.Push(newMatrix);
 
             // Inicializamos la parte grafica
@@ -325,6 +328,253 @@ namespace TheGameOfLife
 
         private void ComboBox_TypeofCell_DropDownOpened(object sender, EventArgs e)
         {
+        }
+
+        private void bt_Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            string direccion;
+            if(saveFileDialog1.ShowDialog() == true)
+            {
+                direccion = saveFileDialog1.FileName;
+                char char1;
+                int i = 0;
+                bool bool1 = false;
+                while (i < direccion.Length && direccion[i] != Convert.ToChar(":") && bool1 == false)
+                {
+                    try
+                    {
+                        char1 = Convert.ToChar(direccion[i]);
+                    }
+                    catch
+                    {
+                        bool1 = true;
+                    }
+                    i = i + 1;
+                }
+                char1 = Convert.ToChar(direccion[i + 1]);
+                char char2 = Convert.ToChar("/");
+
+                direccion = direccion.Replace(char1, char2);
+
+                StreamWriter file1 = new StreamWriter(direccion);
+
+                // Escribimos info basica del grid:
+                file1.WriteLine("Rows =" + rows);
+                file1.WriteLine("Columns =" + columns);
+
+                // Escribimos clases de cells;
+                file1.WriteLine();
+                file1.WriteLine();
+                file1.WriteLine("CELL TYPES");
+                file1.WriteLine();
+                file1.WriteLine("Number of Cell tyoes =" + listCellTypes.Count());
+                for (int k=0; k<listCellTypes.Count();k++)
+                {
+                    CellType celltype1 = listCellTypes[k];
+
+                    file1.WriteLine("Name =" + celltype1.Name);
+
+                    file1.WriteLine("Revive if Top Alive =" + celltype1.reviveif_top_alive.ToString());
+                    file1.WriteLine("Revive if Top Left Alive =" + celltype1.reviveif_top_left_alive.ToString());
+                    file1.WriteLine("Revive if Top Right Alive =" + celltype1.reviveif_top_right_alive.ToString());
+
+                    file1.WriteLine("Revive if Left Alive =" + celltype1.reviveif_left_alive.ToString());
+                    file1.WriteLine("Revive if Right Alive =" + celltype1.reviveif_right_alive.ToString());
+
+                    file1.WriteLine("Revive if Bottom Alive =" + celltype1.reviveif_bottom_alive.ToString());
+                    file1.WriteLine("Revive if Bottom Left Alive =" + celltype1.reviveif_bottmo_left_alive.ToString());
+                    file1.WriteLine("Revive if Bottom Right Alive =" + celltype1.reviveif_bottom_right_alive.ToString());
+
+                    file1.WriteLine("Kill if Top Alive =" + celltype1.killif_top_alive.ToString());
+                    file1.WriteLine("Kill if Top Left Alive =" + celltype1.killif_top_left_alive.ToString());
+                    file1.WriteLine("Kill if Top Right Alive =" + celltype1.killif_top_right_alive.ToString());
+
+                    file1.WriteLine("Kill if Left Alive =" + celltype1.killif_left_alive.ToString());
+                    file1.WriteLine("Kill if Right Alive =" + celltype1.killif_right_alive.ToString());
+
+                    file1.WriteLine("Kill if Bottom Alive =" + celltype1.killif_bottom_alive.ToString());
+                    file1.WriteLine("Kill if Bottom Left Alive =" + celltype1.killif_bottmo_left_alive.ToString());
+                    file1.WriteLine("Kill if Bottom Right Alive =" + celltype1.killif_bottom_right_alive.ToString());
+
+                    file1.WriteLine();
+                }
+
+
+                //Escribimos las iteraciones en orden
+                file1.WriteLine("STEPS");
+                file1.WriteLine();
+
+                Stack<MatrizdeCells> newstackmatrices = stackmatrices;
+                newstackmatrices.Reverse();
+
+                for (int a=0; a<stackmatrices.Count(); a++)
+                {
+                    MatrizdeCells newMatrix1 = newstackmatrices.Pop();
+
+                    for (int b = 0; b < rows; b++)
+                    {
+                        for (int c = 0; c < columns; c++)
+                        {
+                            if(newMatrix1.matrix[b, c].celtype == null)
+                            {
+                                file1.WriteLine(newMatrix1.matrix[b, c].alive.ToString());
+                            }
+                            else
+                            {
+                                file1.WriteLine(newMatrix1.matrix[b, c].alive.ToString() + "+" + newMatrix1.matrix[b, c].celtype.ToString());
+                            }
+                        }
+                    }
+                    file1.WriteLine();
+                    file1.WriteLine("----------");
+                    file1.WriteLine();
+                }
+                file1.Close();
+            }
+        }
+
+        private void bt_Load_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            string direccion;
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                direccion = openFileDialog1.FileName;
+                char char1;
+                int i = 0;
+                bool bool1 = false;
+                while (i < direccion.Length && direccion[i] != Convert.ToChar(":") && bool1 == false)
+                {
+                    try
+                    {
+                        char1 = Convert.ToChar(direccion[i]);
+                    }
+                    catch
+                    {
+                        bool1 = true;
+                    }
+                    i = i + 1;
+                }
+                char1 = Convert.ToChar(direccion[i + 1]);
+                char char2 = Convert.ToChar("/");
+
+                direccion = direccion.Replace(char1, char2);
+
+                StreamReader sr1 = new StreamReader(direccion);
+
+                rows = Convert.ToInt32(sr1.ReadLine().Split(Convert.ToChar("="))[1].ToString());
+                columns = Convert.ToInt32(sr1.ReadLine().Split(Convert.ToChar("="))[1].ToString());
+
+                //Leemos Cell Types
+                sr1.ReadLine();
+                sr1.ReadLine();
+                sr1.ReadLine();
+                sr1.ReadLine();
+                int numtypeofcells = Convert.ToInt32(sr1.ReadLine().Split(Convert.ToChar("="))[1].ToString());
+                listCellTypes.Clear();
+                for(i=0; i< numtypeofcells; i++)
+                {
+                    string name;
+
+                    bool reviveif_top_alive;
+                    bool reviveif_top_right_alive;
+                    bool reviveif_top_left_alive;
+                    bool reviveif_left_alive;
+                    bool reviveif_right_alive;
+                    bool reviveif_bottom_alive;
+                    bool reviveif_bottmo_left_alive;
+                    bool reviveif_bottom_right_alive;
+
+                    bool killif_top_alive;
+                    bool killif_top_left_alive;
+                    bool killif_top_right_alive;
+                    bool killif_left_alive;
+                    bool killif_right_alive;
+                    bool killif_bottom_alive;
+                    bool killif_bottmo_left_alive;
+                    bool killif_bottom_right_alive;
+
+                    name = sr1.ReadLine().Split(Convert.ToChar("="))[1];
+
+                    string a1 = sr1.ReadLine();
+                    if(a1.Split(Convert.ToChar("="))[1] == "True") { reviveif_top_alive = true; }
+                    else { reviveif_top_alive = false; }
+
+                    string a2 = sr1.ReadLine();
+                    if (a2.Split(Convert.ToChar("="))[1] == "True") { reviveif_top_left_alive = true; }
+                    else { reviveif_top_left_alive = false; }
+
+                    string a3 = sr1.ReadLine();
+                    if (a3.Split(Convert.ToChar("="))[1] == "True") { reviveif_top_right_alive = true; }
+                    else { reviveif_top_right_alive = false; }
+
+                    string a4 = sr1.ReadLine();
+                    if (a4.Split(Convert.ToChar("="))[1] == "True") { reviveif_left_alive = true; }
+                    else { reviveif_left_alive = false; }
+
+                    string a5 = sr1.ReadLine();
+                    if (a5.Split(Convert.ToChar("="))[1] == "True") { reviveif_right_alive = true; }
+                    else { reviveif_right_alive = false; }
+
+                    string a6 = sr1.ReadLine();
+                    if (a6.Split(Convert.ToChar("="))[1] == "True") { reviveif_bottom_alive = true; }
+                    else { reviveif_bottom_alive = false; }
+
+                    string a7 = sr1.ReadLine();
+                    if (a7.Split(Convert.ToChar("="))[1] == "True") { reviveif_bottmo_left_alive = true; }
+                    else { reviveif_bottmo_left_alive = false; }
+
+                    string a8 = sr1.ReadLine();
+                    if (a8.Split(Convert.ToChar("="))[1] == "True") { reviveif_bottom_right_alive = true; }
+                    else { reviveif_bottom_right_alive = false; }
+
+
+                    string a9 = sr1.ReadLine();
+                    if (a9.Split(Convert.ToChar("="))[1] == "True") { killif_top_alive = true; }
+                    else { killif_top_alive = false; }
+
+                    string a10 = sr1.ReadLine();
+                    if (a10.Split(Convert.ToChar("="))[1] == "True") { killif_top_left_alive = true; }
+                    else { killif_top_left_alive = false; }
+
+                    string a11 = sr1.ReadLine();
+                    if (a11.Split(Convert.ToChar("="))[1] == "True") { killif_top_right_alive = true; }
+                    else { killif_top_right_alive = false; }
+
+                    string a12 = sr1.ReadLine();
+                    if (a12.Split(Convert.ToChar("="))[1] == "True") { killif_left_alive = true; }
+                    else { killif_left_alive = false; }
+
+                    string a13 = sr1.ReadLine();
+                    if (a13.Split(Convert.ToChar("="))[1] == "True") { killif_right_alive = true; }
+                    else { killif_right_alive = false; }
+
+                    string a14 = sr1.ReadLine();
+                    if (a14.Split(Convert.ToChar("="))[1] == "True") { killif_bottom_alive = true; }
+                    else { killif_bottom_alive = false; }
+
+                    string a15 = sr1.ReadLine();
+                    if (a15.Split(Convert.ToChar("="))[1] == "True") { killif_bottmo_left_alive = true; }
+                    else { killif_bottmo_left_alive = false; }
+
+                    string a16 = sr1.ReadLine();
+                    if (a16.Split(Convert.ToChar("="))[1] == "True") { killif_bottom_right_alive = true; }
+                    else { killif_bottom_right_alive = false; }
+
+                    CellType newCellType1 = new CellType(name, reviveif_top_alive, reviveif_top_right_alive, reviveif_top_left_alive, reviveif_left_alive, reviveif_right_alive, reviveif_bottmo_left_alive, reviveif_bottom_right_alive, reviveif_bottom_alive, killif_top_alive, killif_top_right_alive, killif_top_left_alive, killif_left_alive, killif_right_alive, killif_bottmo_left_alive, killif_bottom_right_alive, killif_bottom_alive);
+                    listCellTypes.Add(newCellType1);
+
+                    sr1.ReadLine();
+                }
+
+                string[] file1 = File.ReadAllLines(direccion);
+                // Leemos info basica
+                rows = Convert.ToInt32(file1[0].Split(Convert.ToChar("="))[1].ToString());
+                columns = Convert.ToInt32(file1[1].Split(Convert.ToChar("="))[1].ToString());
+
+                // Leemos Cell Types
+            }
         }
     }
 }
