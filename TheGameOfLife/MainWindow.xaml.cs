@@ -244,19 +244,18 @@ namespace TheGameOfLife
                             if (listCellTypes[k].Name == oldmatrix.matrix[i, j].celtype.Name.ToString())
                             {
                                 CellType celltype1 = listCellTypes[k];
+                                newmatrix.matrix[i, j].celtype = listCellTypes[k];
 
                                 if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.reviveif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.reviveif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.reviveif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.reviveif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.reviveif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.reviveif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.reviveif_bottom_alive && oldmatrix.matrix[i, j].alive == false)
                                 {
                                     grid[i, j].Fill = Brushes.White;
                                     newmatrix.matrix[i, j].alive = true;
-                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
                                 }
 
                                 if (oldmatrix.isAlive_UpLeft(i, j) == celltype1.killif_top_left_alive && oldmatrix.isAlive_Up(i, j) == celltype1.killif_top_alive && oldmatrix.isAlive_UpRight(i, j) == celltype1.killif_top_right_alive && oldmatrix.isAlive_Left(i, j) == celltype1.killif_left_alive && oldmatrix.isAlive_BottomRight(i, j) == celltype1.killif_bottom_right_alive && oldmatrix.isAlive_BottomLeft(i, j) == celltype1.killif_bottmo_left_alive && oldmatrix.isAlive_Bottom(i, j) == celltype1.killif_bottom_alive && oldmatrix.matrix[i, j].alive == true)
                                 {
                                     grid[i, j].Fill = Brushes.Black;
                                     newmatrix.matrix[i, j].alive = false;
-                                    newmatrix.matrix[i, j].celtype = listCellTypes[k];
                                 }
                             }
                             k = k + 1;
@@ -630,9 +629,9 @@ namespace TheGameOfLife
                         }
                     }
                     stackmatrices.Push(newMatrix);
-                    string hola1 =sr1.ReadLine();
-                    string hola2 = sr1.ReadLine();
-                    string hola3 = sr1.ReadLine();
+                    sr1.ReadLine();
+                    sr1.ReadLine();
+                    sr1.ReadLine();
                 }
 
                 string[] file1 = File.ReadAllLines(direccion);
