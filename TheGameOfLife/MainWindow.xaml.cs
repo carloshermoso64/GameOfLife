@@ -403,12 +403,14 @@ namespace TheGameOfLife
 
                 //Escribimos las iteraciones en orden
                 file1.WriteLine("STEPS");
+                file1.WriteLine("Number of Steps =" + stackmatrices.Count());
                 file1.WriteLine();
 
+                int iterations = stackmatrices.Count();
                 Stack<MatrizdeCells> newstackmatrices = stackmatrices;
                 newstackmatrices.Reverse();
 
-                for (int a=0; a<stackmatrices.Count(); a++)
+                for (int a=0; a<iterations; a++)
                 {
                     MatrizdeCells newMatrix1 = newstackmatrices.Pop();
 
@@ -430,6 +432,7 @@ namespace TheGameOfLife
                     file1.WriteLine("----------");
                     file1.WriteLine();
                 }
+                file1.WriteLine("END");
                 file1.Close();
             }
         }
@@ -568,12 +571,78 @@ namespace TheGameOfLife
                     sr1.ReadLine();
                 }
 
-                string[] file1 = File.ReadAllLines(direccion);
-                // Leemos info basica
-                rows = Convert.ToInt32(file1[0].Split(Convert.ToChar("="))[1].ToString());
-                columns = Convert.ToInt32(file1[1].Split(Convert.ToChar("="))[1].ToString());
+                // Leemos las iteraciones
+                stackmatrices.Clear();
+                string a = sr1.ReadLine();
+                double numberofiterations = Convert.ToInt32(sr1.ReadLine().Split(Convert.ToChar("="))[1].ToString());
+                sr1.ReadLine();
 
-                // Leemos Cell Types
+                for(i =0; i<numberofiterations;i++)
+                {
+                    if(i==63)
+                    {
+
+                    }
+
+                    MatrizdeCells newMatrix = new MatrizdeCells(rows, columns);
+
+                    for(int j =0; j<rows;j++)
+                    {
+                        for (int k = 0; k < columns; k++)
+                        {
+                            string linea = sr1.ReadLine();
+                            if (linea == "END") { break; }
+
+                            if (linea.Contains(Convert.ToChar("+")) == false)
+                            {
+                                if(linea=="True")
+                                {
+                                    newMatrix.matrix[j, k].alive = true;
+                                }
+                                else
+                                {
+                                    newMatrix.matrix[j, k].alive = false;
+                                }
+                            }
+                            else
+                            {
+                                string bool11 = linea.Split(Convert.ToChar("+"))[0].ToString();
+                                string celltype1 = linea.Split(Convert.ToChar("+"))[1].ToString();
+
+                                if (bool11=="True")
+                                {
+                                    newMatrix.matrix[j, k].alive = true;
+                                }
+                                else
+                                {
+                                    newMatrix.matrix[j, k].alive = false;
+                                }
+
+                                // buscamos el celltype en la lista de celltypes
+                                for(int p = 0; p<listCellTypes.Count(); p++)
+                                {
+                                    if(celltype1==listCellTypes[p].Name)
+                                    {
+                                        newMatrix.matrix[j, k].celtype = listCellTypes[p];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    stackmatrices.Push(newMatrix);
+                    string hola1 =sr1.ReadLine();
+                    string hola2 = sr1.ReadLine();
+                    string hola3 = sr1.ReadLine();
+                }
+
+                string[] file1 = File.ReadAllLines(direccion);
+
+                Stack<MatrizdeCells> newstack = new Stack<MatrizdeCells>();
+                while(stackmatrices.Count>0)
+                {
+                    newstack.Push(stackmatrices.Pop());
+                }
+                stackmatrices = newstack;
             }
         }
     }
