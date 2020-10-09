@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -75,10 +76,6 @@ namespace TheGameOfLife
                         int k = 0;
                         while (k < listCellTypes.Count)
                         {
-                            if (j == 1 && i == 1)
-                            {
-
-                            }
                             if (listCellTypes[k].Name == oldmatrix.matrix[i, j].celtype.Name.ToString())
                             {
                                 CellType celltype1 = listCellTypes[k];
@@ -642,6 +639,26 @@ namespace TheGameOfLife
                     newstack.Push(stackmatrices.Pop());
                 }
                 stackmatrices = newstack;
+            }
+
+            // Añadimos los cell types al combo box
+            for(int i=0; i<listCellTypes.Count();i++) // recorremos lista de cell types
+            {
+                int counter = 0;
+                // para cada cell type recorremos combo box
+                for (int j = 0; j < ComboBox_TypeofCell.Items.Count; j++)
+                {
+                    if(ComboBox_TypeofCell.Items[j].ToString() != listCellTypes[i].Name)
+                    {
+                        counter = counter + 1;
+                    }
+                }
+
+                // Si ningun item de combobox coinicide con el cnombre de type of cell lo añadimos al combobox
+                if((counter)==ComboBox_TypeofCell.Items.Count)
+                {
+                    ComboBox_TypeofCell.Items.Add(listCellTypes[i].Name);
+                }
             }
         }
     }
