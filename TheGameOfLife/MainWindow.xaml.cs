@@ -660,6 +660,9 @@ namespace TheGameOfLife
                     ComboBox_TypeofCell.Items.Add(listCellTypes[i].Name);
                 }
             }
+            // Asignamos valor a las rows/columns
+            tb_Columns.Text = columns.ToString();
+            tb_Rows.Text = rows.ToString();
         }
     }
 }
